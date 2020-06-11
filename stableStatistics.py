@@ -1,4 +1,10 @@
 from total2partial import getPartialOrderByThreshold
+from itertools import chain, combinations
+
+def powerset(iterable):
+    "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
+    s = list(iterable)
+    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
 
 def parser(nw):
     odegree = {}
@@ -70,6 +76,17 @@ def getcoordprop(coordpn, state, odegree,inodes,ilogic,inedges, istates):
         prop = len(num)/len(coordpn)
     return prop
 
+def getcoordindex(coordpn, state, odegree,inodes,ilogic,inedges, istates):
+    pindex = getpindex(inodes,inedges,istates)
+    idegree = len(inedges)
+    prop = 0
+    num = None
+    if state == 'H':
+        num = [r for r in coordpn if r.index(-1) < r.index(pindex)]
+    if state == 'L':
+        num = [r for r in coordpn if r.index(-odegree) > r.index(pindex)]
+    return num
+
 # it seems for each node we need: the current state, the logic of in, the outdegree, the states of all innode
 # we need to create 3 dictionary for nodes
 # states of each node,  in logic of each node, out degree of each node
@@ -81,6 +98,16 @@ def computetotalprop(nw,istates):
         coordpn = gencoordpn(ilogic[node], odegree[node]) # the ilogic and odegree of node
         prop*=getcoordprop(coordpn, istates[node], odegree[node], inodes[node], ilogic[node], inedges[node], istates) # all of the node
     return prop
+
+def gettotalindex(nw,istates):
+    odegree,inodes,ilogic,inedges = parser(nw)
+    index = []
+    for node in istates:
+        coordpn = gencoordpn(ilogic[node], odegree[node]) # the ilogic and odegree of node
+        index.append(getcoordindex(coordpn, istates[node], odegree[node], inodes[node], ilogic[node], inedges[node], istates)) # all of the node
+    return index
+
+
 
 # for each 1-d parameter space
 def countregions(r,state,numtheta,nodeindex,regions):
@@ -100,3 +127,18 @@ def countregions(r,state,numtheta,nodeindex,regions):
                 continue
         count+=1
     return count
+
+
+def generateAllLUStates(nodesList):
+    ps = list(powerset(nodeList))
+    ret = []
+    for state in ps:
+        currState = dict()
+        for node in nodeList:
+            if node in state:
+                currState[node] = 'H'
+            else:
+                currState[node] = 'L'
+        ret.append(currState)
+                
+    return ret
