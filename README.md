@@ -9,3 +9,5 @@
 4. The dat files shold include all the node type in the regualtory network the users are concerned with. 
 
 5. For the L, U equilibrium we do not have to consider the order of thresholds, so the index returned is only for a fixed order.
+
+6. If needed, we can add further algorithm for intermediate equilibrium ...
