@@ -129,7 +129,7 @@ def countregions(r,state,numtheta,nodeindex,regions):
     return count
 
 
-def generateAllLUStates(nodesList):
+def generateAllLUStates(nodeList):
     ps = list(powerset(nodeList))
     ret = []
     for state in ps:
