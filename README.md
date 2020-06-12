@@ -11,3 +11,5 @@
 5. For the L, U equilibrium we do not have to consider the order of thresholds, so the index returned is only for a fixed order.
 
 6. If needed, we can add further algorithm for intermediate equilibrium ...
+
+7. All the order of nodes are alphabetical of the gene name
