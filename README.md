@@ -13,3 +13,5 @@
 6. If needed, we can add further algorithm for intermediate equilibrium ...
 
 7. All the order of nodes are alphabetical of the gene name
+
+8. Get all equilibrium and single cell equiblirium (users restrictions) functions are added. See tutorial.ipynb. 
